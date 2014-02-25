@@ -26,16 +26,18 @@
 		 </div>	
 		@endif
 		<h4>{{$ifp->text }}</h4>
-		<ul class="list-unstyled"></ul>
+		<ul class="list-unstyled">
 			@foreach($ifp->options as $opt)
-				<li>{{$opt->option}} : {{$opt->text}}</li>
+				<li>{{Str::upper($opt->option)}} : {{$opt->text}}</li>
 			@endforeach
 		</ul>
 	</div>
 	<div class="tab-pane" id="status">
-		<p><strong>Launched</strong>: {{$ifp->date_start}}</p>
-		<p><strong>Scheduled Close</strong>: {{$ifp->date_to_end}}</p>
-		<p><strong>Closed</strong>: {{$ifp->date_to_end}}</p>
+		<dl class="dl-horizontal">
+			<dt>Launched</dt><dd>{{$ifp->date_start}}</dd>
+			<dt>Scheduled Close</dt><dd>{{$ifp->date_to_end}}</dd>
+			<dt>Closed</dt><dd>{{$ifp->date_end}}</dd>
+		</dl>
 	</div>
 	<div class="tab-pane" id="details">
 		{{$ifp->desc }}
@@ -44,23 +46,17 @@
 
 <!-- Make a Forecast -->
 <h2>Make a Forecast</h2>
-<!--<form id="forecast" class="form-horizontal" role="form" action="/fcast">
-	<input type="hidden" id="ifp_id" value="{{$ifp->id}}"> 
-	@foreach($ifp->options as $opt)
-		<div class="form-group">
-	    	<div class="col-sm-1">
-	    		<input type="text" class="form-control" id="{{$opt->id}}" placeholder="">
-	    	</div>
-	    	<label class="col-sm-3 control-label" for="opt_{{$opt->option}}">{{$opt->text}}</label>
-		</div>
-	@endforeach
-  <button type="submit" class="btn btn-default">Submit</button>
-</form>-->
-
-
-{{ Form::open(array('url' => '/fcast')) }}
+{{ Form::open(array('url' => url('/fcast'), 'class' => 'form-horizontal', 'role'=>'form', 'id'=>'forecast')) }}
     {{ Form::hidden('ifp_id', $ifp->id) }}
-	{{ Form::submit('Submit Forecast') }}
+    @foreach($ifp->options as $opt)
+    	<div class="form-group">
+    		<div class="col-sm-1">
+    			<input type="text" class="form-control" name="opt_{{$opt->id}}" placeholder="">
+    		</div>
+    		<label class="col-sm-4 control-label" for="opt_{{$opt->id}}">{{$opt->text}}</label>
+    	</div>
+    @endforeach
+	{{ Form::submit('Submit Forecast', array('class' => 'btn btn-default')) }}
 {{ Form::close() }}
 
 @stop
