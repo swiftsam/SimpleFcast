@@ -15,3 +15,7 @@ header h1 {float:left; margin-right:15px;}
 	border:1px solid #ddd;
 	margin-right:5px;
 }
+
+#forecast .control-label{
+	text-align: left;
+}

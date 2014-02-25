@@ -44,11 +44,16 @@
 
 <!-- Make a Forecast -->
 <h2>Make a Forecast</h2>
-<div class="col-lg-2">
-	<div class="input-group">
-		<input type="text" class="form-control">
-		<span class="input-group-btn"></span>
-	</div>
-</div>
+<form id="forecast" class="form-horizontal" role="form">
+	@foreach($ifp->options as $opt)
+		<div class="form-group">
+	    	<div class="col-sm-1">
+	    		<input type="text" class="form-control" id="opt_{{$opt->option}}" placeholder="">
+	    	</div>
+	    	<label class="col-sm-3 control-label" for="opt_{{$opt->option}}">{{$opt->text}}</label>
+		</div>
+	@endforeach
+  <button type="submit" class="btn btn-default">Submit</button>
+</form>
 
 @stop
