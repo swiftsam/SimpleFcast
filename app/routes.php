@@ -25,7 +25,7 @@ Route::get('questions', function()
 
 Route::get('questions/{id}', function($ifp_id)
 {
-	$ifp = Ifp::find($ifp_id);
+	$ifp = Ifp::with('options')->find($ifp_id);
     return View::make('ifp')->with('ifp', $ifp);
 });
 

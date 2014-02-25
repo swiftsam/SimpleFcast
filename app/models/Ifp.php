@@ -2,6 +2,11 @@
 
 class Ifp extends Eloquent {
 
+    public function options()
+    {
+        return $this->hasMany('IfpOption');
+    }
+
     public function css_class()
     {
         switch ($this->status) {

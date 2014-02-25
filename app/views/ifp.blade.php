@@ -25,7 +25,12 @@
 		    <img class="media-object" src="/img/ifp/{{$ifp->id}}.jpg" alt="">
 		 </div>	
 		@endif
-		{{$ifp->text }}
+		<h4>{{$ifp->text }}</h4>
+		<ul class="list-unstyled"></ul>
+			@foreach($ifp->options as $opt)
+				<li>{{$opt->option}} : {{$opt->text}}</li>
+			@endforeach
+		</ul>
 	</div>
 	<div class="tab-pane" id="status">
 		<p><strong>Launched</strong>: {{$ifp->date_start}}</p>
@@ -36,4 +41,14 @@
 		{{$ifp->desc }}
 	</div>
 </div>
+
+<!-- Make a Forecast -->
+<h2>Make a Forecast</h2>
+<div class="col-lg-2">
+	<div class="input-group">
+		<input type="text" class="form-control">
+		<span class="input-group-btn"></span>
+	</div>
+</div>
+
 @stop
