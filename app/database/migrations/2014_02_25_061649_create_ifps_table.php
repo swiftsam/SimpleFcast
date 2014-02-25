@@ -14,7 +14,7 @@ class CreateIfpsTable extends Migration {
 	{
 		Schema::create('ifps', function($table)
 	    {
-	        $table->integer('id')->unique();
+	        $table->increments('id');
 	        $table->tinyInteger('type');
 	        $table->tinyInteger('status');
 	        $table->string('short_title');

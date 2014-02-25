@@ -14,9 +14,9 @@ class CreateFcastValuesTable extends Migration {
 	{
 		Schema::create('fcast_values', function($table)
 	    {
-	        $table->integer('id')->unique();
-	        $table->integer('fcast_id');
-	        $table->integer('ifp_option_id');
+	        $table->increments('id');
+	        $table->unsignedInteger('fcast_id');
+	        $table->unsignedInteger('ifp_option_id');
 	       	$table->float('value');
 	    });
 	}

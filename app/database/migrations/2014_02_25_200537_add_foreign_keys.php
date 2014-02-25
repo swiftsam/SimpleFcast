@@ -34,7 +34,19 @@ class AddForeignKeys extends Migration {
 	 */
 	public function down()
 	{
-		//
+	   	Schema::table('ifp_options', function($table){
+	    	$table->dropForeign('ifp_options_ifp_id_foreign');
+	    });
+
+	    Schema::table('fcasts', function($table){
+	    	$table->dropForeign('fcasts_ifp_id_foreign');
+	    	$table->dropForeign('fcasts_user_id_foreign');
+	    });
+
+	    Schema::table('fcast_values', function($table){
+	    	$table->dropForeign('fcast_values_fcast_id_foreign');
+	    	$table->dropForeign('fcast_values_ifp_option_id_foreign');
+	    });
 	}
 
 }

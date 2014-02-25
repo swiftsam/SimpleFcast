@@ -14,8 +14,8 @@ class CreateIfpOptionsTable extends Migration {
 	{
 		Schema::create('ifp_options', function($table)
 	    {
-	        $table->integer('id')->unique();
-	        $table->integer('ifp_id');
+	        $table->increments('id');
+	        $table->unsignedInteger('ifp_id');
 	        $table->string('option');
 	        $table->string('text');
 	        $table->timestamps();

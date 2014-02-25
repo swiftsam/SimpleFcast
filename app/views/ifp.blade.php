@@ -44,16 +44,23 @@
 
 <!-- Make a Forecast -->
 <h2>Make a Forecast</h2>
-<form id="forecast" class="form-horizontal" role="form">
+<!--<form id="forecast" class="form-horizontal" role="form" action="/fcast">
+	<input type="hidden" id="ifp_id" value="{{$ifp->id}}"> 
 	@foreach($ifp->options as $opt)
 		<div class="form-group">
 	    	<div class="col-sm-1">
-	    		<input type="text" class="form-control" id="opt_{{$opt->option}}" placeholder="">
+	    		<input type="text" class="form-control" id="{{$opt->id}}" placeholder="">
 	    	</div>
 	    	<label class="col-sm-3 control-label" for="opt_{{$opt->option}}">{{$opt->text}}</label>
 		</div>
 	@endforeach
   <button type="submit" class="btn btn-default">Submit</button>
-</form>
+</form>-->
+
+
+{{ Form::open(array('url' => '/fcast')) }}
+    {{ Form::hidden('ifp_id', $ifp->id) }}
+	{{ Form::submit('Submit Forecast') }}
+{{ Form::close() }}
 
 @stop

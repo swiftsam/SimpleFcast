@@ -14,9 +14,9 @@ class CreateFcastsTable extends Migration {
 	{
 		Schema::create('fcasts', function($table)
 	    {
-	        $table->integer('id')->unique();
-	        $table->integer('ifp_id');
-	        $table->integer('user_id');
+	        $table->increments('id');
+	        $table->unsignedInteger('ifp_id');
+	        $table->unsignedInteger('user_id');
 	        $table->timestamps();
 	    });
 	}

@@ -34,3 +34,15 @@ Route::get('scores', function()
 	return View::make('scores');
 });
 
+Route::post('fcast',function(){
+	$user = User::find(1);
+	$ifp  = Ifp::find(Input::get('ifp_id'));
+
+	$fcast = new Fcast;
+	$fcast->ifp_id = $ifp->id;
+	$fcast->user_id = $user->id;
+	$fcast->save();
+
+	return Redirect::to('/');
+});
+
