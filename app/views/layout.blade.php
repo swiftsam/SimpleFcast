@@ -20,7 +20,10 @@
   </head>
   <body class="container">
     <header class="page-header">
-      <h1>Good Judgment</h1>
+      <a href="/">
+        <img src="/img/gj_logo_60.png", alt="Good Judgment, LLC">
+      </a>
+      <h1>Good Judgment<small>,LLC</small></h1>
       <nav id="nav">
         <ul class="nav nav-pills">
           <li><a href="/">Dashboard</a></li>
