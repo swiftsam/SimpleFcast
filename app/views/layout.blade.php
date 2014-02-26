@@ -25,7 +25,7 @@
         <ul class="nav nav-pills">
           <li><a href="/">Dashboard</a></li>
           <li><a href="/questions">Questions</a></li>
-          <li><a href="/scores">Scores</a></li>
+          <!--<li><a href="/scores">Scores</a></li>-->
         </ul>
       </nav>
     </header>

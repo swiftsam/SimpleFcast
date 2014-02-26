@@ -19,3 +19,10 @@ header h1 {float:left; margin-right:15px;}
 #forecast .control-label{
 	text-align: left;
 }
+
+div.ifp_thumb { 
+	width:145px;
+	height:190px;
+	padding:10px;
+	float: left;
+}

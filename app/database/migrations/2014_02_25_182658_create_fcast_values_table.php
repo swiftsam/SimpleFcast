@@ -18,6 +18,7 @@ class CreateFcastValuesTable extends Migration {
 	        $table->unsignedInteger('fcast_id');
 	        $table->unsignedInteger('ifp_option_id');
 	       	$table->float('value');
+	       	$table->timestamps();
 	    });
 	}
 

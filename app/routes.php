@@ -13,7 +13,12 @@
 
 Route::get('/', function()
 {
-	return View::make('dashboard');
+	$ifps_newest   = Ifp::where('status', '=', '1')->orderBy('date_start', 'DESC')->limit(5)->get();
+	$ifps_closed   = Ifp::where('status', '=', '4')->orderBy('date_end', 'DESC')->limit(5)->get();
+	$recent_fcasts = Fcast::latest()->limit(10)->get();
+	return View::make('dashboard')->with(array('ifps_newest' => $ifps_newest,
+											   'ifps_closed' => $ifps_closed,
+											   'recent_fcasts' => $recent_fcasts));
 });
 
 Route::get('questions', function()
@@ -26,7 +31,8 @@ Route::get('questions', function()
 Route::get('questions/{id}', function($ifp_id)
 {
 	$ifp = Ifp::with('options')->find($ifp_id);
-    return View::make('ifp')->with('ifp', $ifp);
+	$fcasts_ifp = Fcast::where('ifp_id','=',$ifp_id)->get();
+    return View::make('ifp')->with(array('ifp' => $ifp, 'fcasts_ifp' => $fcasts_ifp));
 });
 
 Route::get('scores', function()
@@ -38,19 +44,18 @@ Route::post('fcast',function(){
 	$user = User::find(1);
 	$ifp  = Ifp::find(Input::get('ifp_id'));
 
-	# There must be a far more elegant solution to this
-	#$values = Input::all();
-	#for($values as $val){
-#		if(substr($val->name, 1, 4) == "opt_"){
-		#	$fcast_value = new FcastValue();
-	#		$fcast_value->value = $val->name
-#		}
-#	}
-
 	$fcast = new Fcast;
 	$fcast->ifp_id = $ifp->id;
 	$fcast->user_id = $user->id;
 	$fcast->save();
+
+	foreach($ifp->options as $opt) {
+	 	$fcast_value                = new FcastValue;
+	 	$fcast_value->ifp_option_id = $opt->id;
+	 	$fcast_value->value         = Input::get('opt_'.$opt->option);
+	 	$fcast_value->fcast_id      = $fcast->id;
+	 	$fcast_value->save();
+	 }
 
 	return Redirect::to('/');
 });
