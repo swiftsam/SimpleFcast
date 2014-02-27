@@ -50,20 +50,29 @@
 	Estimate the percent probability (between 0 and 100%) that each of the outcomes will occur.
 	{{ Form::open(array('url' => url('/fcast'),'class'=>'form-horizontal','role'=>'form', 'id'=>'forecast')) }}
 	    {{ Form::hidden('ifp_id', $ifp->id) }}
+	    	<table class="table-condensed">
+    			<tr>
+    				<th>Potential<br>Score</th>
+    				<th colspan="2">Forecast</th>
+    				<th>Outcome</th>
+    			</tr>
 		    @foreach($ifp->options as $opt)
-		     <div class="form-group">
-		     	<div class="col-sm-1 fcast-value">
-			    	<input type  = "text"
+		    	<tr>
+		    		<td id="score_opt_{{$opt->option}}"></td>
+		    		<td>
+						<input type  = "text"
 			    		   class = "slider-val form-control" 
 			    	       name  = "opt_{{$opt->option}}" 
 			    	       id    = "opt_{{$opt->option}}" 
 			    	       value = {{round((1/$ifp->options()->count())*100)}}>
-			   	</div>
-		    	<div class="noUiSlider col-sm-4" ifp-option="{{$opt->option}}" id="slider_opt_{{$opt->option}}"></div>
-		    	<label class="control-label" for="opt_{{$opt->option}}">{{$opt->text}}</label>
-		    </div>
+		    		</td>
+		    		<td><div class="noUiSlider col-sm-4" ifp-option="{{$opt->option}}" id="slider_opt_{{$opt->option}}"></div></td>
+		    		<td>{{$opt->text}}</td>
+		    	</tr>
 		    @endforeach
+		    </table>
 		{{ Form::submit('Submit Forecast', array('class' => 'btn btn-default')) }}
+		<div id="scores"></div>
 	{{ Form::close() }}
 @endif
 

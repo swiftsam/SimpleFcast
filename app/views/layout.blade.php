@@ -54,13 +54,36 @@
           sum += parseInt($(n).val(),10); 
         });
         var sumErr = sum - 100;
-        var correction = -sumErr / ($("input.slider-val").size() - 1)
+        var correction = -Math.ceil(sumErr / ($("input.slider-val").size() - 1))
 
         $(".slider-val").not($(this)).each(function(i, e){
           var currentVal = $(e).val()*1;
           var newVal = (currentVal += correction*1);
           $(e).val(newVal);
           $("#slider_"+$(e).attr("name")).val(newVal);
+        });
+      }
+
+      function BrierScore(pArr){
+        //assumes that we are scoring the probability in pArr[0]
+        var score = 0;
+        score += Math.pow(1-pArr[0],2)
+        for(var i = 1; i < pArr.length; i++){
+          score += Math.pow(pArr[i],2)
+        }
+
+        return score;
+      }
+
+      function calcScores(){
+        $("input.slider-val").each(function(){
+          var pArr = new Array();
+          pArr[0]=($(this).val()/100);
+          $("input.slider-val").not($(this)).each(function(){
+            pArr.push($(this).val()/100);
+          });
+          score = BrierScore(pArr);
+          $("#score_"+$(this).attr("name")).html(score.toFixed(3));
         });
       }
 
@@ -76,12 +99,16 @@
               to: [ $("#opt_"+$(this).attr("ifp-option")), 'value' ],
                         resolution:1
             },
-            slide: sumto100,
+            slide: function(){sumto100(); calcScores();},
           });
         });
+        calcScores();
       });
 
-      $("input.slider-val").change(sumto100);
+      $("input.slider-val").change(function(){
+        sumto100();
+        calcScores();
+      });
 
     </script>
   </body>
