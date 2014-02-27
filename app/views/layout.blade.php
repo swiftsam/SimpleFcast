@@ -9,6 +9,7 @@
     <!-- Bootstrap -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/bootstrap-sortable.css" rel="stylesheet">
+    <link href="/css/noui-slider.min.css" rel="stylesheet">
     <link href="/css/simplefcast.css" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -44,5 +45,44 @@
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/moment.min.js"></script>
     <script src="/js/bootstrap-sortable.js"></script>
+    <script src="/js/noui-slider.min.js"></script>
+
+    <script type="text/javascript">
+      function sumto100(){
+        var sum = 0;
+        $("input.slider-val").each(function(i,n){
+          sum += parseInt($(n).val(),10); 
+        });
+        var sumErr = sum - 100;
+        var correction = -sumErr / ($("input.slider-val").size() - 1)
+
+        $(".slider-val").not($(this)).each(function(i, e){
+          var currentVal = $(e).val()*1;
+          var newVal = (currentVal += correction*1);
+          $(e).val(newVal);
+          $("#slider_"+$(e).attr("name")).val(newVal);
+        });
+      }
+
+      $(function(){
+        $('.noUiSlider').each(function(){
+          $(this).noUiSlider({
+            range: [0,100],
+            start: [$("#opt_"+$(this).attr("ifp-option")).val()],
+            handles:1,
+            step:1,
+            connect:"lower",
+            serialization: {
+              to: [ $("#opt_"+$(this).attr("ifp-option")), 'value' ],
+                        resolution:1
+            },
+            slide: sumto100,
+          });
+        });
+      });
+
+      $("input.slider-val").change(sumto100);
+
+    </script>
   </body>
 </html>

@@ -47,23 +47,28 @@
 @if($ifp->status == 1)
 <!-- Make a Forecast -->
 <h2>Make a Forecast</h2>
-{{ Form::open(array('url' => url('/fcast'), 'class' => 'form-horizontal', 'role'=>'form', 'id'=>'forecast')) }}
+{{ Form::open(array('url' => url('/fcast'),'class'=>'form-horizontal','role'=>'form', 'id'=>'forecast')) }}
     {{ Form::hidden('ifp_id', $ifp->id) }}
-    @foreach($ifp->options as $opt)
-    	<div class="form-group">
-    		<div class="col-sm-1">
-    			<input type="text" class="form-control" name="opt_{{$opt->option}}" placeholder="">
-    		</div>
-    		<label class="col-sm-4 control-label" for="opt_{{$opt->option}}">{{$opt->text}}</label>
-    	</div>
-    @endforeach
+	    @foreach($ifp->options as $opt)
+	     <div class="form-group">
+	     	<div class="col-sm-1">
+		    	<input type  = "text"
+		    		   class = "slider-val form-control" 
+		    	       name  = "opt_{{$opt->option}}" 
+		    	       id    = "opt_{{$opt->option}}" 
+		    	       value = {{round((1/$ifp->options()->count())*100)}}>
+		   	</div>
+	    	<div class="noUiSlider col-sm-4" ifp-option="{{$opt->option}}" id="slider_opt_{{$opt->option}}"></div>
+	    	<label class="control-label" for="opt_{{$opt->option}}">{{$opt->text}}</label>
+	    </div>
+	    @endforeach
 	{{ Form::submit('Submit Forecast', array('class' => 'btn btn-default')) }}
 {{ Form::close() }}
 @endif
 
 <!-- History of Forecasts -->
 <h2>Your Forecasts</h2>
-<table cellpadding="0" cellspacing="0" border="0" id="recent_fcasts" class="table table-striped table-bordered sortable">
+<table cellpadding="0" cellspacing="0" border="0" id="recent_fcasts" class="table table-striped table-bordered">
 	<thead>
 		<tr role="row">
 			<th>Date</th>
@@ -83,6 +88,5 @@
 	</tr>
 @endforeach
 </table>
-
 
 @stop
