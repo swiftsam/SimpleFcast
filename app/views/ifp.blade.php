@@ -47,11 +47,12 @@
 @if($ifp->status == 1)
 	<!-- Make a Forecast -->
 	<h2>Make a Forecast</h2>
+	Estimate the percent probability (between 0 and 100%) that each of the outcomes will occur.
 	{{ Form::open(array('url' => url('/fcast'),'class'=>'form-horizontal','role'=>'form', 'id'=>'forecast')) }}
 	    {{ Form::hidden('ifp_id', $ifp->id) }}
 		    @foreach($ifp->options as $opt)
 		     <div class="form-group">
-		     	<div class="col-sm-1">
+		     	<div class="col-sm-1 fcast-value">
 			    	<input type  = "text"
 			    		   class = "slider-val form-control" 
 			    	       name  = "opt_{{$opt->option}}" 
@@ -84,7 +85,7 @@
 			@foreach($ifp->options as $option)
 			<td>{{ round(FcastValue::where('fcast_id','=',$fcast->id)->
 							   where('ifp_option_id','=',$option->id)->
-							   first()->value) }}</td>
+							   first()->value) }}%</td>
 			@endforeach
 		</tr>
 		@endforeach

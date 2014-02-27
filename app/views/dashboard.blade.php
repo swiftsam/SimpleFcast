@@ -28,14 +28,14 @@
         <table cellpadding="0" cellspacing="0" border="0" id="recent_fcasts" class="table table-striped table-bordered sortable">
         	<thead>
     			<tr role="row">
+                    <th>Date</th>
     				<th>Question</th>
-    				<th>Date</th>
     			</tr>
     		</thead>
         @foreach($recent_fcasts as $fcast)
         	<tr>
+                <td>{{$fcast->created_at}}</td>
         		<td><a href="/questions/{{$fcast->ifp_id}}">{{$fcast->ifp_id}}: {{Ifp::find($fcast->ifp_id)->short_title}}</a></td>
-        		<td>{{$fcast->created_at}}</td>
         	</tr>
         @endforeach
         </table>
