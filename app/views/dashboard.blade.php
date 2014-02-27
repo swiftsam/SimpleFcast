@@ -24,18 +24,22 @@
 
     <br style="clear:left;">
     <h2>Your Recent Forecasts</h2>
-    <table cellpadding="0" cellspacing="0" border="0" id="recent_fcasts" class="table table-striped table-bordered sortable">
-    	<thead>
-			<tr role="row">
-				<th>Question</th>
-				<th>Date</th>
-			</tr>
-		</thead>
-    @foreach($recent_fcasts as $fcast)
-    	<tr>
-    		<td><a href="/questions/{{$fcast->ifp_id}}">{{$fcast->ifp_id}}: {{Ifp::find($fcast->ifp_id)->short_title}}</a></td>
-    		<td>{{$fcast->created_at}}</td>
-    	</tr>
-    @endforeach
-    </table>
+    @if($recent_fcasts->count() > 0)
+        <table cellpadding="0" cellspacing="0" border="0" id="recent_fcasts" class="table table-striped table-bordered sortable">
+        	<thead>
+    			<tr role="row">
+    				<th>Question</th>
+    				<th>Date</th>
+    			</tr>
+    		</thead>
+        @foreach($recent_fcasts as $fcast)
+        	<tr>
+        		<td><a href="/questions/{{$fcast->ifp_id}}">{{$fcast->ifp_id}}: {{Ifp::find($fcast->ifp_id)->short_title}}</a></td>
+        		<td>{{$fcast->created_at}}</td>
+        	</tr>
+        @endforeach
+        </table>
+    @else
+        You have not made any forecasts yet.
+    @endif
 @stop
