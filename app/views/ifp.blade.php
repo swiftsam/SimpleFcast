@@ -52,8 +52,8 @@
 	    {{ Form::hidden('ifp_id', $ifp->id) }}
 	    	<table class="table-condensed">
     			<tr>
-    				<th>Potential<br>Score</th>
-    				<th colspan="2">Forecast</th>
+    				<th>Potential<br>Score <span class="glyphicon glyphicon-question-sign"></span></th>
+    				<th colspan="3">Forecast</th>
     				<th>Outcome</th>
     			</tr>
 		    @foreach($ifp->options as $opt)
@@ -61,12 +61,13 @@
 		    		<td id="score_opt_{{$opt->option}}"></td>
 		    		<td>
 						<input type  = "text"
-			    		   class = "slider-val form-control" 
+			    		   class = "slider-val form-control unlocked" 
 			    	       name  = "opt_{{$opt->option}}" 
 			    	       id    = "opt_{{$opt->option}}" 
 			    	       value = {{round((1/$ifp->options()->count())*100)}}>
 		    		</td>
-		    		<td><div class="noUiSlider col-sm-4" ifp-option="{{$opt->option}}" id="slider_opt_{{$opt->option}}"></div></td>
+		    		<td><span class="glyphicon glyphicon-lock unlocked" ifp-option="{{$opt->option}}"></span></td>
+		    		<td><div class="noUiSlider col-sm-4 unlocked" ifp-option="{{$opt->option}}" id="slider_opt_{{$opt->option}}"></div></td>
 		    		<td>{{$opt->text}}</td>
 		    	</tr>
 		    @endforeach

@@ -106,6 +106,7 @@
       });
 
       $("input.slider-val").change(function(){
+        $(this).addClass("locked");
         sumto100();
         calcScores();
       });

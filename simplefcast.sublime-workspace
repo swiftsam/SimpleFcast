@@ -24,68 +24,13 @@
 	"buffers":
 	[
 		{
+			"contents": "@extends('layout')\n\n@section('content')\n <h2>{{$ifp->id}}: {{ $ifp->short_title }}</h2>\n\n<!-- Nav tabs -->\n<ul class=\"nav nav-tabs\">\n	<li class=\"active\"><a href=\"#question\" data-toggle=\"tab\">\n		Question</a>\n	</li>\n	<li class=\"alert-{{$ifp->css_class()}}\">\n		<a href=\"#status\" data-toggle=\"tab\">Status: {{$ifp->status_verbal()}}</a>\n	</li>\n	<li>\n		<a href=\"#details\" data-toggle=\"tab\">Details and Resolution Criteria</a>\n	</li>\n</ul>\n\n<!-- Tab panes -->\n<div class=\"tab-content\">\n	<div class=\"tab-pane active\" id=\"question\">\n		<!-- Key Image -->\n		@if(file_exists(public_path(\"img/ifp/\",$ifp->id,\".jpg\")))\n			<div class=\"media pull-left\">\n			    <img class=\"media-object\" src=\"/img/ifp/{{$ifp->id}}.jpg\" alt=\"\">\n			 </div>	\n		@endif\n		<h4>{{$ifp->text }}</h4>\n		<ul class=\"list-unstyled\">\n			@foreach($ifp->options as $opt)\n				<li>{{Str::upper($opt->option)}} : {{$opt->text}}</li>\n			@endforeach\n		</ul>\n	</div>\n	<div class=\"tab-pane\" id=\"status\">\n		<dl class=\"dl-horizontal\">\n			<dt>Launched</dt><dd>{{$ifp->date_start}}</dd>\n			<dt>Scheduled Close</dt><dd>{{$ifp->date_to_end}}</dd>\n			<dt>Closed</dt><dd>{{$ifp->date_end}}</dd>\n		</dl>\n	</div>\n	<div class=\"tab-pane\" id=\"details\">\n		{{$ifp->desc }}\n	</div>\n</div>\n\n@if($ifp->status == 1)\n	<!-- Make a Forecast -->\n	<h2>Make a Forecast</h2>\n	Estimate the percent probability (between 0 and 100%) that each of the outcomes will occur.\n	{{ Form::open(array('url' => url('/fcast'),'class'=>'form-horizontal','role'=>'form', 'id'=>'forecast')) }}\n	    {{ Form::hidden('ifp_id', $ifp->id) }}\n	    	<table class=\"table-condensed\">\n    			<tr>\n    				<th>Potential<br>Score <span class=\"glyphicon glyphicon-question-sign\"></span></th>\n    				<th colspan=\"3\">Forecast</th>\n    				<th>Outcome</th>\n    			</tr>\n		    @foreach($ifp->options as $opt)\n		    	<tr>\n		    		<td id=\"score_opt_{{$opt->option}}\"></td>\n		    		<td>\n						<input type  = \"text\"\n			    		   class = \"slider-val form-control unlocked\" \n			    	       name  = \"opt_{{$opt->option}}\" \n			    	       id    = \"opt_{{$opt->option}}\" \n			    	       value = {{round((1/$ifp->options()->count())*100)}}>\n		    		</td>\n		    		<td><span class=\"glyphicon glyphicon-lock unlocked\" ifp-option=\"{{$opt->option}}\"></span></td>\n		    		<td><div class=\"noUiSlider col-sm-4 unlocked\" ifp-option=\"{{$opt->option}}\" id=\"slider_opt_{{$opt->option}}\"></div></td>\n		    		<td>{{$opt->text}}</td>\n		    	</tr>\n		    @endforeach\n		    </table>\n		{{ Form::submit('Submit Forecast', array('class' => 'btn btn-default')) }}\n		<div id=\"scores\"></div>\n	{{ Form::close() }}\n@endif\n\n<!-- History of Forecasts -->\n<h2>Your Forecasts</h2>\n@if($fcasts_ifp->count() > 0)\n	<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" id=\"recent_fcasts\" class=\"table table-striped table-bordered\">\n		<thead>\n			<tr role=\"row\">\n				<th>Date</th>\n				@foreach($ifp->options as $option)\n				<th>{{$option->text}}</th>\n				@endforeach\n			</tr>\n		</thead>\n		@foreach($fcasts_ifp as $fcast)\n		<tr>\n			<td>{{$fcast->created_at}}</td>\n			@foreach($ifp->options as $option)\n			<td>{{ round(FcastValue::where('fcast_id','=',$fcast->id)->\n							   where('ifp_option_id','=',$option->id)->\n							   first()->value) }}%</td>\n			@endforeach\n		</tr>\n		@endforeach\n	</table>\n@else\n	You have not made any forecasts yet.	\n@endif\n\n@stop",
 			"file": "app/views/ifp.blade.php",
+			"file_size": 3265,
+			"file_write_time": 130384216810000000,
 			"settings":
 			{
-				"buffer_size": 1836,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "public/js/bootstrap-sortable.js",
-			"settings":
-			{
-				"buffer_size": 9083,
-				"line_ending": "Unix",
-				"name": "/* Set the defaults for DataTables initialisation"
-			}
-		},
-		{
-			"file": "public/js/moment.min.js",
-			"settings":
-			{
-				"buffer_size": 24500,
-				"line_ending": "Unix",
-				"name": "//! moment.js"
-			}
-		},
-		{
-			"file": "public/css/bootstrap-sortable.css",
-			"settings":
-			{
-				"buffer_size": 1576,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/views/layout.blade.php",
-			"settings":
-			{
-				"buffer_size": 1643,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/views/ifps.blade.php",
-			"settings":
-			{
-				"buffer_size": 740,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "public/css/simplefcast.css",
-			"settings":
-			{
-				"buffer_size": 379,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/routes.php",
-			"settings":
-			{
-				"buffer_size": 1255,
+				"buffer_size": 3292,
 				"line_ending": "Unix"
 			}
 		}
@@ -117,6 +62,18 @@
 	},
 	"file_history":
 	[
+		"/run/user/1000/gvfs/sftp:host=swiftnode/var/www/devcast.samswift.org/public/css/simplefcast.css",
+		"/run/user/1000/gvfs/sftp:host=swiftnode/var/www/devcast.samswift.org/app/views/layout.blade.php",
+		"/run/user/1000/gvfs/sftp:host=swiftnode/var/www/devcast.samswift.org/public/js/simple-slider.js",
+		"/run/user/1000/gvfs/sftp:host=swiftnode/var/www/devcast.samswift.org/app/views/ifp.blade.php",
+		"/run/user/1000/gvfs/sftp:host=swiftnode/var/www/devcast.samswift.org/app/routes.php",
+		"/run/user/1000/gvfs/sftp:host=swiftnode/var/www/devcast.samswift.org/public/css/simple-slider.css",
+		"/run/user/1000/gvfs/sftp:host=swiftnode/var/www/devcast.samswift.org/public/js/bootstrap-slider.js",
+		"/run/user/1000/gvfs/sftp:host=swiftnode/var/www/devcast.samswift.org/public/css/bootstrap-slider.css",
+		"/run/user/1000/gvfs/sftp:host=swiftnode/var/www/devcast.samswift.org/app/views/ifps.blade.php",
+		"/run/user/1000/gvfs/sftp:host=swiftnode/var/www/devcast.samswift.org/public/css/bootstrap-sortable.css",
+		"/run/user/1000/gvfs/sftp:host=swiftnode/var/www/devcast.samswift.org/public/js/moment.min.js",
+		"/run/user/1000/gvfs/sftp:host=swiftnode/var/www/devcast.samswift.org/public/js/bootstrap-sortable.js",
 		"/run/user/1000/gvfs/sftp:host=swiftnode/var/www/simplefcast.samswift.org/app/routes.php",
 		"/run/user/1000/gvfs/sftp:host=swiftnode/var/www/simplefcast.samswift.org/app/views/ifp.blade.php",
 		"/run/user/1000/gvfs/sftp:host=swiftnode/var/www/simplefcast.samswift.org/app/database/migrations/2014_02_25_104254_create_ifp_options_table.php",
@@ -182,7 +139,7 @@
 	"groups":
 	[
 		{
-			"selected": 6,
+			"selected": 0,
 			"sheets":
 			[
 				{
@@ -191,15 +148,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1836,
+						"buffer_size": 3292,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1644,
-								1644
+								1757,
+								1757
 							]
 						],
 						"settings":
@@ -208,216 +165,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "public/js/bootstrap-sortable.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 9083,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								9083,
-								9083
-							]
-						],
-						"settings":
-						{
-							"auto_name": "/* Set the defaults for DataTables initialisation",
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1431.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "public/js/moment.min.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 24500,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								24500,
-								24500
-							]
-						],
-						"settings":
-						{
-							"auto_name": "//! moment.js",
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 85.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "public/css/bootstrap-sortable.css",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1576,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								410,
-								410
-							]
-						],
-						"settings":
-						{
-							"auto_name": "",
-							"syntax": "Packages/CSS/CSS.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "app/views/layout.blade.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1643,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1624,
-								1624
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "app/views/ifps.blade.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 740,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								610,
-								610
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "public/css/simplefcast.css",
-					"semi_transient": true,
-					"settings":
-					{
-						"buffer_size": 379,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								155,
-								155
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CSS/CSS.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 878.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "app/routes.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1255,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1122,
-								1122
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 153.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 7,
 					"type": "text"
 				}
 			]
@@ -495,7 +246,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 331.0,
+	"side_bar_width": 249.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{
