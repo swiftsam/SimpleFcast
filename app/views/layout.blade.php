@@ -54,9 +54,9 @@
           sum += parseInt($(n).val(),10); 
         });
         var sumErr = sum - 100;
-        var correction = -Math.ceil(sumErr / ($("input.slider-val").size() - 1))
+        var correction = -Math.ceil(sumErr / ($("input.slider-val.unlocked").size() - 1))
 
-        $(".slider-val").not($(this)).each(function(i, e){
+        $(".slider-val.unlocked").not($(this)).each(function(i, e){
           var currentVal = $(e).val()*1;
           var newVal = (currentVal += correction*1);
           $(e).val(newVal);
@@ -87,28 +87,46 @@
         });
       }
 
+      function lockOption(option){
+        $("#slider_opt_"+option).removeClass("unlocked").addClass("locked");
+        $("#opt_"+option).removeClass("unlocked").addClass("locked");
+        $("#lock_opt_"+option).removeClass("unlocked").addClass("locked").unbind('click').click(function(){ unlockOption(option);});
+      }
+
+      function unlockOption(option){
+        $("#slider_opt_"+option).removeClass("locked").addClass("unlocked");
+        $("#opt_"+option).removeClass("locked").addClass("unlocked");
+        $("#lock_opt_"+option).removeClass("locked").addClass("unlocked").unbind('click').click(function(){ lockOption(option);});
+      }
+
+
       $(function(){
         $('.noUiSlider').each(function(){
+          var option = $(this).attr("ifp-option");
           $(this).noUiSlider({
             range: [0,100],
-            start: [$("#opt_"+$(this).attr("ifp-option")).val()],
+            start: [$("#opt_"+option).val()],
             handles:1,
             step:1,
             connect:"lower",
             serialization: {
-              to: [ $("#opt_"+$(this).attr("ifp-option")), 'value' ],
+              to: [ $("#opt_"+option), 'value' ],
                         resolution:1
             },
-            slide: function(){sumto100(); calcScores();},
+            slide: function(){sumto100(); 
+                              calcScores();
+                              unlockOption(option)},
           });
         });
         calcScores();
-      });
 
-      $("input.slider-val").change(function(){
-        $(this).addClass("locked");
-        sumto100();
-        calcScores();
+        $("input.slider-val").change(function(){
+          sumto100();
+          calcScores();
+        });
+
+        $("input.slider-val").click(function(){ lockOption($(this).attr("ifp-option"));})
+        $(".glyphicon-lock.unlocked").click(function(){ lockOption($(this).attr("ifp-option"));});
       });
 
     </script>

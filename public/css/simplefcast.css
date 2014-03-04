@@ -26,8 +26,18 @@ header img {float:left;}
 	text-align: center;
 }
 
-#forecast .glyphicon-lock.unlocked{
-	color:#ccc;	
+#forecast .glyphicon.glyphicon-lock.unlocked{
+	color:#ddd;	
+	cursor:pointer;
+}
+
+#forecast .glyphicon.glyphicon-lock.locked{
+	color:#000;	
+	cursor:pointer;
+}
+
+#forecast .slider-val.locked{
+	color:red;	
 }
 
 #forecast .noUiSlider{

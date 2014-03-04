@@ -58,16 +58,24 @@
     			</tr>
 		    @foreach($ifp->options as $opt)
 		    	<tr>
-		    		<td id="score_opt_{{$opt->option}}"></td>
-		    		<td>
-						<input type  = "text"
-			    		   class = "slider-val form-control unlocked" 
-			    	       name  = "opt_{{$opt->option}}" 
-			    	       id    = "opt_{{$opt->option}}" 
-			    	       value = {{round((1/$ifp->options()->count())*100)}}>
+		    		<td id="score_opt_{{$opt->option}}">
 		    		</td>
-		    		<td><span class="glyphicon glyphicon-lock unlocked" ifp-option="{{$opt->option}}"></span></td>
-		    		<td><div class="noUiSlider col-sm-4 unlocked" ifp-option="{{$opt->option}}" id="slider_opt_{{$opt->option}}"></div></td>
+		    		<td>
+						<input type       = "text"
+			    		       class      = "slider-val form-control unlocked" 
+			    		       ifp-option = "{{$opt->option}}" 
+			    	           name       = "opt_{{$opt->option}}" 
+			    	           id         = "opt_{{$opt->option}}" 
+			    	           value      = {{round((1/$ifp->options()->count())*100)}}>
+		    		</td>
+		    		<td><span class       = "glyphicon glyphicon-lock unlocked" 
+		    				  ifp-option  = "{{$opt->option}}" 
+		    		          id          = "lock_opt_{{$opt->option}}">
+		    		</span></td>
+		    		<td><div class        = "noUiSlider col-sm-4 unlocked" 
+		    				 ifp-option   = "{{$opt->option}}" 
+		    				 id           = "slider_opt_{{$opt->option}}">
+		    		</div></td>
 		    		<td>{{$opt->text}}</td>
 		    	</tr>
 		    @endforeach
