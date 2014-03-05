@@ -32,12 +32,12 @@ header img {float:left;}
 }
 
 #forecast .glyphicon.glyphicon-lock.locked{
-	color:#000;	
+	color:#444;	
 	cursor:pointer;
 }
 
 #forecast .slider-val.locked{
-	color:red;	
+	font-weight: bold;	
 }
 
 #forecast .noUiSlider{

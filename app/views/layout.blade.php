@@ -48,20 +48,47 @@
     <script src="/js/noui-slider.min.js"></script>
 
     <script type="text/javascript">
-      function sumto100(){
+      function inputSum(){
         var sum = 0;
         $("input.slider-val").each(function(i,n){
           sum += parseInt($(n).val(),10); 
         });
-        var sumErr = sum - 100;
-        var correction = -Math.ceil(sumErr / ($("input.slider-val.unlocked").size() - 1))
+        return sum;
+      }
 
-        $(".slider-val.unlocked").not($(this)).each(function(i, e){
-          var currentVal = $(e).val()*1;
-          var newVal = (currentVal += correction*1);
-          $(e).val(newVal);
-          $("#slider_"+$(e).attr("name")).val(newVal);
+      function setFcastValue(option, value){
+        $("#opt_"+option).val(value);
+        $("#slider_opt_"+option).val(value);
+      }
+
+      function sumto100(changedInput){
+        inputVal = parseInt($(changedInput).val(),10)
+        if(inputVal > 100){
+          setFcastValue($(changedInput).attr("ifp-option"), 100);        
+        }
+        if(inputVal < 0){
+          setFcastValue($(changedInput).attr("ifp-option"), 0);        
+        }
+
+        // Check the current sum and adjust bins
+        var sum    = inputSum();
+        var sumErr = sum - 100;
+
+        var nCorrectableInputs = $("input.slider-val.unlocked").not(changedInput).size();
+        var correction = -sumErr / nCorrectableInputs;
+
+        $(".slider-val.unlocked").not(changedInput).each(function(i, e){
+          var currentVal = parseInt($(e).val(),10);
+          var newVal     = Math.round(currentVal + correction);
+          setFcastValue($(e).attr("ifp-option"),newVal);
         });
+
+        // Limit current input not to exceed sum 100
+        if(inputSum() > 101 | inputSum() < 99){
+          var sumErr = inputSum() - 100;
+          var newVal = parseInt($(changedInput).val(),10)-sumErr;
+          setFcastValue($(changedInput).attr("ifp-option"), newVal);
+        }
       }
 
       function BrierScore(pArr){
@@ -91,6 +118,7 @@
         $("#slider_opt_"+option).removeClass("unlocked").addClass("locked");
         $("#opt_"+option).removeClass("unlocked").addClass("locked");
         $("#lock_opt_"+option).removeClass("unlocked").addClass("locked").unbind('click').click(function(){ unlockOption(option);});
+
       }
 
       function unlockOption(option){
@@ -113,20 +141,22 @@
               to: [ $("#opt_"+option), 'value' ],
                         resolution:1
             },
-            slide: function(){sumto100(); 
+            slide: function(){sumto100($("#opt_"+option)); 
                               calcScores();
                               unlockOption(option)},
           });
         });
         calcScores();
 
-        $("input.slider-val").change(function(){
-          sumto100();
+        $("input.slider-val").blur(function(){ 
+          lockOption($(this).attr("ifp-option"));
+          sumto100($(this));
           calcScores();
-        });
+        })
 
-        $("input.slider-val").click(function(){ lockOption($(this).attr("ifp-option"));})
-        $(".glyphicon-lock.unlocked").click(function(){ lockOption($(this).attr("ifp-option"));});
+        $(".glyphicon-lock.unlocked").click(function(){ 
+          lockOption($(this).attr("ifp-option"));
+        });
       });
 
     </script>

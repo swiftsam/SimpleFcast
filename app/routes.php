@@ -15,7 +15,7 @@ Route::get('/', function()
 {
 	$ifps_newest   = Ifp::where('status', '=', '1')->orderBy('date_start', 'DESC')->limit(5)->get();
 	$ifps_closed   = Ifp::where('status', '=', '4')->orderBy('date_end', 'DESC')->limit(5)->get();
-	$recent_fcasts = Fcast::latest()->limit(10)->get();
+	$recent_fcasts = Fcast::latest()->orderBy('created_at', 'DESC')->limit(10)->get();
 	return View::make('dashboard')->with(array('ifps_newest' => $ifps_newest,
 											   'ifps_closed' => $ifps_closed,
 											   'recent_fcasts' => $recent_fcasts));

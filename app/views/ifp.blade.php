@@ -83,6 +83,9 @@
 		{{ Form::submit('Submit Forecast', array('class' => 'btn btn-default')) }}
 		<div id="scores"></div>
 	{{ Form::close() }}
+	<div id="nCorrectable"></div>
+	<div id="sum"></div>
+	<div id="lastInput"></div>
 @endif
 
 <!-- History of Forecasts -->
