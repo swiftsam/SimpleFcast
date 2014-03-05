@@ -24,7 +24,7 @@
       <a href="/">
         <img src="/img/gj_logo_60.png", alt="Good Judgment, LLC">
       </a>
-      <h1>Good Judgment, LLC</h1>
+      <h1>Good Judgment, llc</h1>
       <nav id="nav">
         <ul class="nav nav-pills">
           <li><a href="/">Dashboard</a></li>
