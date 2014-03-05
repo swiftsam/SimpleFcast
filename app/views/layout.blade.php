@@ -61,7 +61,8 @@
         $("#slider_opt_"+option).val(value);
       }
 
-      function sumto100(changedInput){
+      function sumto100(changedInput, inputType){
+        // limit input values to [0,100]
         inputVal = parseInt($(changedInput).val(),10)
         if(inputVal > 100){
           setFcastValue($(changedInput).attr("ifp-option"), 100);        
@@ -84,11 +85,36 @@
         });
 
         // Limit current input not to exceed sum 100
-        if(inputSum() > 101 | inputSum() < 99){
-          var sumErr = inputSum() - 100;
-          var newVal = parseInt($(changedInput).val(),10)-sumErr;
-          setFcastValue($(changedInput).attr("ifp-option"), newVal);
+        if(inputType == "slider" && inputVal == 100){
+          $(".slider-val.unlocked").not(changedInput).each(function(i, e){
+            setFcastValue($(e).attr("ifp-option"),0);
+          });
         }
+        if(inputType == "slider" && (inputSum() > 101 | inputSum() < 99) ){
+            var sumErr = inputSum() - 100;
+            var newVal = parseInt($(changedInput).val(),10)-sumErr;
+            setFcastValue($(changedInput).attr("ifp-option"), newVal);
+        }
+        if(inputType == "input"){
+          var lockedSum = 0;
+          $("input.slider-val.locked").not($(changedInput)).each(function(i,n){
+            lockedSum += parseInt($(n).val(),10); 
+          });
+          
+          if(lockedSum + inputVal > 100){
+            setFcastValue($(changedInput).attr("ifp-option"), 100-lockedSum);  
+          }
+
+          var currentSum = inputSum();
+          while(currentSum > 100){
+            $(".slider-val.unlocked").not(changedInput).each(function(i, e){
+              var currentVal = parseInt($(e).val(),10);
+              setFcastValue($(e).attr("ifp-option"),Math.max(currentVal-1,0));
+            });
+            currentSum = inputSum();
+          }
+        }
+        $("#sum").html(inputSum());
       }
 
       function BrierScore(pArr){
@@ -141,16 +167,23 @@
               to: [ $("#opt_"+option), 'value' ],
                         resolution:1
             },
-            slide: function(){sumto100($("#opt_"+option)); 
+            slide: function(){sumto100($("#opt_"+option),"slider"); 
                               calcScores();
                               unlockOption(option)},
           });
         });
         calcScores();
 
+        var sliderVals = new Array();
+        $("input.slider-val").focus(function(){
+          sliderVals[$(this).attr("ifp-option")] = $(this).val();
+        })
+
         $("input.slider-val").blur(function(){ 
-          lockOption($(this).attr("ifp-option"));
-          sumto100($(this));
+          if($(this).val() != sliderVals[$(this).attr("ifp-option")]){
+            lockOption($(this).attr("ifp-option"));
+          }
+          sumto100($(this), "input");
           calcScores();
         })
 

@@ -84,7 +84,7 @@
 		<div id="scores"></div>
 	{{ Form::close() }}
 	<div id="nCorrectable"></div>
-	<div id="sum"></div>
+	<div id="sum">0</div>
 	<div id="lastInput"></div>
 @endif
 
