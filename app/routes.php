@@ -31,7 +31,7 @@ Route::get('questions', function()
 Route::get('questions/{id}', function($ifp_id)
 {
 	$ifp = Ifp::with('options')->find($ifp_id);
-	$fcasts_ifp = Fcast::where('ifp_id','=',$ifp_id)->get();
+	$fcasts_ifp = Fcast::where('ifp_id','=',$ifp_id)->orderBy('created_at', 'DESC')->get();
     return View::make('ifp')->with(array('ifp' => $ifp, 'fcasts_ifp' => $fcasts_ifp));
 });
 

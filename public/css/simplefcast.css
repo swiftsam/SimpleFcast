@@ -21,11 +21,6 @@ header img {float:left;}
 	vertical-align: bottom;	
 }
 
-#forecast .slider-val{
-	width:50px;	
-	text-align: center;
-}
-
 #forecast .glyphicon.glyphicon-lock.unlocked{
 	color:#ddd;	
 	cursor:pointer;
@@ -34,6 +29,11 @@ header img {float:left;}
 #forecast .glyphicon.glyphicon-lock.locked{
 	color:#444;	
 	cursor:pointer;
+}
+
+#forecast .slider-val{
+	width:50px;	
+	text-align: center;
 }
 
 #forecast .slider-val.locked{
@@ -51,6 +51,11 @@ header img {float:left;}
 
 #forecast label {
 	text-align:left
+}
+
+#scores{
+	margin-top: 15px;
+
 }
 
 div.ifp_thumb { 

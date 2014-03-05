@@ -52,14 +52,11 @@
 	    {{ Form::hidden('ifp_id', $ifp->id) }}
 	    	<table class="table-condensed">
     			<tr>
-    				<th>Potential<br>Score <span class="glyphicon glyphicon-question-sign"></span></th>
     				<th colspan="3">Forecast</th>
     				<th>Outcome</th>
     			</tr>
 		    @foreach($ifp->options as $opt)
 		    	<tr>
-		    		<td id="score_opt_{{$opt->option}}">
-		    		</td>
 		    		<td>
 						<input type       = "text"
 			    		       class      = "slider-val form-control unlocked" 
@@ -80,12 +77,51 @@
 		    	</tr>
 		    @endforeach
 		    </table>
-		{{ Form::submit('Submit Forecast', array('class' => 'btn btn-default')) }}
-		<div id="scores"></div>
+		{{ Form::submit('Submit Forecast', array('class' => 'btn btn-primary')) }}
+		<button id="showHideScores" type="button" class="btn btn-default">Show potential scores</button>
 	{{ Form::close() }}
-	<div id="nCorrectable"></div>
-	<div id="sum">0</div>
-	<div id="lastInput"></div>
+
+	<!-- Scores -->
+	<div id="scores" class="panel panel-default hidden">
+	<!-- Default panel contents -->
+		<div class="panel-heading">Potential scores for current forecast</div>
+		<div class="panel-body">
+			<div class="row">
+				<div class="col-md-5">
+					<table class="table table-hover">
+					<thead>
+						<tr>
+							<th>Brier Score<br/>of forecast</th>
+							<th>if the outcome is ...</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach($ifp->options as $opt)
+						<tr>
+							<td id="score_opt_{{$opt->option}}">{{$opt->option}}</td>
+							<td>{{Str::upper($opt->option)}} : {{$opt->text}}</td>
+						</tr>
+						@endforeach
+					</tbody>
+					</table>	
+				</div>
+				<div class="col-md-7">
+					<p>The accuracy of your forecasts is measured using the Brier score which ranges from 0 
+					(perfect) to 2(completely wrong).  The score is the squared deviation between probability 
+					judgments and reality, which is coded as 0 or 1, depending on whether the outcome occurs.
+					If you leave the probabilities equally distributed, you will earn a Brier score of 
+					{{number_format(-(1/$ifp->options->count()) * (1-$ifp->options->count()),3)}} 
+					which is determined by the number of answer options.
+					The Brier score is a squared error rule, so the penalty for being wrong increases quickly with
+					each additional percentage forecast.</p>
+					<p>The numbers to the left will update as you change your forecast.  Get a feel for the quadratic
+					relationship between forecast probability and score and reflect on your confidence.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	
 @endif
 
 <!-- History of Forecasts -->

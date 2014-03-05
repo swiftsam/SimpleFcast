@@ -114,7 +114,6 @@
             currentSum = inputSum();
           }
         }
-        $("#sum").html(inputSum());
       }
 
       function BrierScore(pArr){
@@ -153,8 +152,11 @@
         $("#lock_opt_"+option).removeClass("locked").addClass("unlocked").unbind('click').click(function(){ lockOption(option);});
       }
 
-
       $(function(){
+        // fix for jquery and bootstrap conflict on hidden
+        $('.hidden').hide().removeClass('hidden');
+
+        // intialize sliders
         $('.noUiSlider').each(function(){
           var option = $(this).attr("ifp-option");
           $(this).noUiSlider({
@@ -189,6 +191,13 @@
 
         $(".glyphicon-lock.unlocked").click(function(){ 
           lockOption($(this).attr("ifp-option"));
+        });
+
+        $("#showHideScores").click(function(){
+          $("#scores").toggle();
+          $(this).text(function(i, text){
+            return text === "Show potential scores" ? "Hide potential scores" : "Show potential scores";
+        })
         });
       });
 
