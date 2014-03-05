@@ -72,11 +72,11 @@
         }
 
         // Check the current sum and adjust bins
-        var sum    = inputSum();
-        var sumErr = sum - 100;
-
-        var nCorrectableInputs = $("input.slider-val.unlocked").not(changedInput).size();
-        var correction = -sumErr / nCorrectableInputs;
+        var sum          = inputSum();
+        var sumErr       = sum - 100;
+        var nUnlocked    = $("input.slider-val.unlocked").length;
+        var nCorrectable = $("input.slider-val.unlocked").not(changedInput).length;
+        var correction   = -sumErr / nCorrectable;
 
         $(".slider-val.unlocked").not(changedInput).each(function(i, e){
           var currentVal = parseInt($(e).val(),10);
@@ -103,6 +103,10 @@
           
           if(lockedSum + inputVal > 100){
             setFcastValue($(changedInput).attr("ifp-option"), 100-lockedSum);  
+          }
+
+          if(nUnlocked == 0 && lockedSum + inputVal > 100){
+            setFcastValue($(changedInput).attr("ifp-option"), lockedSum-100);  
           }
 
           var currentSum = inputSum();
