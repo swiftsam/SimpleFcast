@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Good Judgment Forecasting</title>
+    <title>SFP [Simple Forecasting Platform]</title>
 
     <!-- Bootstrap -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
@@ -21,10 +21,7 @@
   </head>
   <body class="container">
     <header class="page-header">
-      <a href="/">
-        <img src="/img/gj_logo_60.png", alt="Good Judgment, LLC">
-      </a>
-      <h1>Good Judgment, llc</h1>
+      <a href="/"><h1>SFP</h1></a>
       <nav id="nav">
         <ul class="nav nav-pills">
           <li><a href="/">Dashboard</a></li>
